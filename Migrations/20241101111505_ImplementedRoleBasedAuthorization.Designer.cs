@@ -4,6 +4,7 @@ using ABCRetailers_Cameron_Chetty_CLDV6212_POE_P3.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ABCRetailers_Cameron_Chetty_CLDV6212_POE_P3.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20241101111505_ImplementedRoleBasedAuthorization")]
+    partial class ImplementedRoleBasedAuthorization
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,60 +24,6 @@ namespace ABCRetailers_Cameron_Chetty_CLDV6212_POE_P3.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("ABCRetailers_Cameron_Chetty_CLDV6212_POE_P3.Models.Order", b =>
-                {
-                    b.Property<int>("OrderId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"));
-
-                    b.Property<DateTime>("OrderDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal?>("TotalPrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("OrderId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("ABCRetailers_Cameron_Chetty_CLDV6212_POE_P3.Models.OrderRequest", b =>
-                {
-                    b.Property<int>("OrderRequestId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderRequestId"));
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("OrderStatus")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.HasKey("OrderRequestId");
-
-                    b.HasIndex("OrderId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("OrderRequests");
-                });
 
             modelBuilder.Entity("ABCRetailers_Cameron_Chetty_CLDV6212_POE_P3.Models.Product", b =>
                 {
@@ -333,36 +282,6 @@ namespace ABCRetailers_Cameron_Chetty_CLDV6212_POE_P3.Migrations
                     b.HasDiscriminator().HasValue("ApplicationUser");
                 });
 
-            modelBuilder.Entity("ABCRetailers_Cameron_Chetty_CLDV6212_POE_P3.Models.Order", b =>
-                {
-                    b.HasOne("ABCRetailers_Cameron_Chetty_CLDV6212_POE_P3.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("ABCRetailers_Cameron_Chetty_CLDV6212_POE_P3.Models.OrderRequest", b =>
-                {
-                    b.HasOne("ABCRetailers_Cameron_Chetty_CLDV6212_POE_P3.Models.Order", "Order")
-                        .WithMany("OrderRequests")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ABCRetailers_Cameron_Chetty_CLDV6212_POE_P3.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -412,11 +331,6 @@ namespace ABCRetailers_Cameron_Chetty_CLDV6212_POE_P3.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("ABCRetailers_Cameron_Chetty_CLDV6212_POE_P3.Models.Order", b =>
-                {
-                    b.Navigation("OrderRequests");
                 });
 #pragma warning restore 612, 618
         }
