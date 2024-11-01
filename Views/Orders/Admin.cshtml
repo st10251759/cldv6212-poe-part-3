@@ -1,0 +1,122 @@
+﻿@model IEnumerable<ABCRetailers_Cameron_Chetty_CLDV6212_POE_P3.Models.OrderAdminViewModel>
+
+<div class="container-products">
+    <h2>Admin - Orders</h2>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Order Date</th>
+                <th>User Email</th>
+                <th>Total Price</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td>@order.OrderId</td>
+                    <td>@order.OrderDate</td>
+                    <td>@order.UserEmail</td>
+                    <td>R @(order.TotalPrice.ToString("0.00"))</td>
+                    <td>@order.Status</td>
+
+                    <td>
+                        @if (order.Status == "Pending")
+                        {
+                            <a asp-action="ProcessOrder" asp-route-id="@order.OrderId" class="btn btn-primary">Approve Order</a>
+                        }
+                        else
+                        {
+                            <span></span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<style>
+    body {
+        background-color: #051c42; /* Light gray background color */
+        margin: 0;
+        padding: 0;
+    }
+
+    .container-products {
+        width: 80%;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    main {
+        background-color: #051c42;
+    }
+
+    h1 {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+    }
+
+    .actions {
+        display: flex;
+        justify-content: center;
+    }
+
+        .actions button {
+            margin-right: 10px;
+        }
+
+    .btn-primary {
+        background-color: #051c42;
+        color: #fff;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        .btn-primary:hover {
+            background-color: #8c0307;
+            border-color: #FFF !important;
+            color: #FFF;
+        }
+
+    .btn-danger {
+        background-color: #dc3545;
+        color: #fff;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+</style>
