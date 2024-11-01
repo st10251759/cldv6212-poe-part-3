@@ -1,11 +1,19 @@
 using ABCRetailers_Cameron_Chetty_CLDV6212_POE_P3.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using System.Configuration;
+using ABCRetailers_Cameron_Chetty_CLDV6212_POE_P3.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Access the configuration object
+var configuration = builder.Configuration;
+
+// Register BlobService with configuration
+builder.Services.AddSingleton(new BlobService(configuration.GetConnectionString("AzureStorage")));
 
 //Adding DB Context builder services with options
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
