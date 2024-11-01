@@ -12,5 +12,7 @@ namespace ABCRetailers_Cameron_Chetty_CLDV6212_POE_P3.Data
         }
 
         public DbSet<Product> Product { get; set; }
+
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
     }
 }
