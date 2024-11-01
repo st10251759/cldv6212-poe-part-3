@@ -124,7 +124,8 @@
                     @if (User.IsInRole("Admin"))
                     {
                         <a href="/Products" class="nav-item nav-link">Inventory List</a>
-                        <a href="/Orders/Admin" class="nav-item nav-link">Process Orders</a> 
+                        <a href="/Orders/Admin" class="nav-item nav-link">Process Orders</a>
+                        <a href="/OrderRequests/" class="nav-item nav-link">View Order Reqest Details</a>
                     }
                     else if (User.IsInRole("Client"))
                     {
