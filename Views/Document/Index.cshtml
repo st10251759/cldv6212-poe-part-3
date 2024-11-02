@@ -1,0 +1,114 @@
+﻿@model IEnumerable<ABCRetailers_Cameron_Chetty_CLDV6212_POE_P3.Models.Document>
+
+@{
+    ViewData["Title"] = "Documents";
+}
+
+<style>
+    body {
+        background-color: #051c42;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container-documents {
+        width: 80%;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+        margin-bottom: 20px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+    }
+
+    .btn-now {
+        margin: 5px 0;
+    }
+
+    .btn-info {
+        background-color: #17a2b8;
+        color: white;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+        margin-top: 20px;
+        display: block;
+        text-align: center;
+        padding: 10px;
+        border-radius: 5px;
+        text-decoration: none;
+        width: 300px;
+        margin-bottom: 20px;
+    }
+
+        .btn-primary:hover,
+        .btn-info:hover,
+        .btn-danger:hover {
+            opacity: 0.9;
+        }
+</style>
+
+<div class="container-documents">
+    <h2>Documents</h2>
+
+    @if (User.IsInRole("Admin")) // Show the button only if the user is an Admin
+    {
+        <a asp-action="Upload" class="btn btn-primary">Upload New Document</a>
+    }
+
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Upload Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var document in Model)
+            {
+                <tr>
+                    <td>@document.Title</td>
+                    <td>@document.Description</td>
+                    <td>@document.UploadDate.ToShortDateString()</td>
+                    <td>
+                        <a asp-action="Download" asp-route-id="@document.Id" class="btn btn-info">Download</a>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a asp-action="DeleteConfirmation" asp-route-id="@document.Id" class="btn btn-danger"
+                               onclick="return confirm('Are you sure you want to delete this document?');">Delete</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
