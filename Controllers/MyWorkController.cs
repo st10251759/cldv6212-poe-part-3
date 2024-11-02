@@ -78,6 +78,44 @@ namespace ABCRetailers_Cameron_Chetty_CLDV6212_POE_P3.Controllers
         }
 
         [HttpPost]
+        public async Task<IActionResult> RemoveFromCart(int productId)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var userId = await _userManager.GetUserIdAsync(user);
+
+            // Find the open order
+            var openOrder = await _context.Orders
+                .Include(o => o.OrderRequests)
+                .FirstOrDefaultAsync(o => o.UserId == userId && o.Status == "Shopping");
+
+            if (openOrder != null)
+            {
+                // Find the order request for the specified product
+                var orderRequest = openOrder.OrderRequests
+                    .FirstOrDefault(or => or.ProductId == productId);
+
+                if (orderRequest != null)
+                {
+                    // Remove the order request from the order
+                    _context.OrderRequests.Remove(orderRequest);
+
+                    // Update product availability back to "In Stock" if necessary
+                    var product = await _context.Product.FindAsync(productId);
+                    if (product != null)
+                    {
+                        product.Availability = true;
+                    }
+
+                    await _context.SaveChangesAsync();
+                    return Json(new { success = true });
+                }
+            }
+
+            return Json(new { success = false, message = "Item not found in cart" });
+        }
+
+
+        [HttpPost]
         public async Task<IActionResult> Checkout(decimal totalPrice)
         {
             var user = await _userManager.GetUserAsync(User);

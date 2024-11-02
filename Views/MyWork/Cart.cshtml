@@ -79,6 +79,26 @@
             font-size: 16px;
             color: #777;
         }
+
+
+        /* Style for the Remove button */
+        .remove-button {
+            padding: 8px 12px;
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+            .remove-button:hover {
+                background-color: #c82333;
+            }
     </style>
 
 </head>
@@ -93,6 +113,7 @@
                     <tr>
                         <th>Product</th>
                         <th>Price</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -104,6 +125,11 @@
                                 <span>@orderRequest.Product.Name</span>
                             </td>
                             <td>R @orderRequest.Product.Price?.ToString("0.00")</td>
+                            <td>
+                                <button class="remove-button" onclick="removeFromCart(@orderRequest.Product.ProductId)">
+                                    <i class="fas fa-trash-alt"></i> Remove
+                                </button>
+                            </td>
                         </tr>
                     }
                 </tbody>
@@ -135,6 +161,19 @@
                 });
             }
         </script>
+        <script>
+            function removeFromCart(productId) {
+                $.post('/MyWork/RemoveFromCart', { productId: productId }, function (response) {
+                    if (response.success) {
+                        alert('Item removed from cart');
+                        location.reload(); // Refresh the page to update the cart
+                    } else {
+                        alert(response.message);
+                    }
+                });
+            }
+        </script>
+
     }
 </body>
 </html>
