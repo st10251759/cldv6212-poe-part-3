@@ -24,6 +24,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ABCRetailers_Cameron_Chetty_CLDV6212_POE_P3.Areas.Identity.Pages.Account
 {
+    [Authorize(Roles = "Admin")]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;
