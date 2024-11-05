@@ -1,4 +1,5 @@
 ﻿// Import the Identity namespace to manage authentication and authorization roles
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 
 // Import the MVC namespace to enable the use of controllers, actions, and views
@@ -8,6 +9,7 @@ namespace ABCRetailers_Cameron_Chetty_CLDV6212_POE_P3.Controllers
 {
     // Define the AppRolesController class to manage user roles
     // This controller inherits from the Controller class, providing MVC functionality
+    [Authorize(Roles = "Admin")] // Restrict access to Admin role
     public class AppRolesController : Controller
     {
         // Declare a private readonly field for RoleManager, which will handle role-related operations

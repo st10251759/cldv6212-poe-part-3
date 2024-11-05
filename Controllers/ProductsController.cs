@@ -11,12 +11,14 @@ namespace ABCRetailers_Cameron_Chetty_CLDV6212_POE_P3.Controllers
     {
         private readonly ApplicationDBContext _context; // Database context instance for accessing database tables
         private readonly BlobService _blobService; // Service for handling file uploads and deletions in Blob Storage
+        private readonly QueueService _queueService;
 
         // Constructor for dependency injection of database context and blob storage service
-        public ProductsController(ApplicationDBContext context, BlobService blobService)
+        public ProductsController(ApplicationDBContext context, BlobService blobService, QueueService queueService)
         {
             _context = context;
             _blobService = blobService;
+            _queueService = queueService;
         }
 
         // GET: Products
@@ -99,6 +101,12 @@ namespace ABCRetailers_Cameron_Chetty_CLDV6212_POE_P3.Controllers
             {
                 _context.Add(product); // Add the product to the context
                 await _context.SaveChangesAsync(); // Save changes to the database
+
+                // Send messages to queues
+                string imageUploadMessage = $"Product ID:{product.ProductId}, Image url: {product.ImageUrlpath}, Status: Uploaded Successfully";
+                await _queueService.SendMessageAsync("imageupload", imageUploadMessage);
+
+
                 return RedirectToAction(nameof(Index)); // Redirect to the Index view
             }
             return View(product); // Return to the Create view if the model state is invalid

@@ -1,17 +1,115 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @model IdentityRole
-<div class="row">
-    <div class="col-md-4">
+
+
+    <style>
+        /* General page styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #051c42; /* Dark blue background */
+            color: #ffffff;
+            margin: 0;
+        }
+
+        main{
+        margin-bottom: 280px;
+        }
+
+        /* Container styling */
+        .roles-container {
+            max-width: 600px;
+            margin: 40px auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            color: #333333;
+        }
+
+        /* Header styling */
+        h2 {
+            font-size: 24px;
+            color: #051c42; /* Match primary color */
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Form input styling */
+        .form-floating {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            color: #333333;
+            background-color: #f4f4f4;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: border-color 0.3s;
+        }
+
+            .form-control:focus {
+                border-color: #051c42;
+                outline: none;
+                box-shadow: 0px 0px 5px rgba(0, 92, 177, 0.2);
+            }
+
+        .form-floating label {
+            position: absolute;
+            top: -12px;
+            left: 12px;
+            padding: 0 5px;
+            font-size: 18px;
+            color: #333333;
+        }
+
+        /* Button styling */
+        .btn-primary-two {
+            background-color: #051c42;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+
+            .btn-primary-two:hover {
+        background-color: #8c0307;
+        color: #fff;
+            }
+
+        /* Error message styling */
+        .text-danger {
+            color: #d9534f;
+            font-size: 14px;
+        }
+
+        /* Divider styling */
+        hr {
+            border: 0;
+            height: 1px;
+            background-color: #051c42;
+            margin-bottom: 20px;
+        }
+    </style>
+
+    <div class="roles-container">
+        <h2>Create Role</h2>
+        <hr />
         <form method="post">
-            <h2>Create Role</h2>
-            <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-floating">
                 <input asp-for="Name" class="form-control" aria-required="true" />
-                <label asp-for="Name"></label>
+                <label asp-for="Name">Role Name</label>
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="submit" class="btn btn-primary-two">Save</button>
         </form>
     </div>
-</div>
+

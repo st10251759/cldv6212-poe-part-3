@@ -1,6 +1,7 @@
 ﻿// Using necessary namespaces for data access, authorization, identity management, and MVC functionality
 using ABCRetailers_Cameron_Chetty_CLDV6212_POE_P3.Data; // Namespace for data context of the application
 using ABCRetailers_Cameron_Chetty_CLDV6212_POE_P3.Models; // Namespace for models used in the application
+using ABCRetailers_Cameron_Chetty_CLDV6212_POE_P3.Services;
 using Microsoft.AspNetCore.Authorization; // For role-based authorization of user access
 using Microsoft.AspNetCore.Identity; // For managing users and roles in Identity framework
 using Microsoft.AspNetCore.Mvc; // For MVC controller functionality
@@ -16,12 +17,15 @@ namespace ABCRetailers_Cameron_Chetty_CLDV6212_POE_P3.Controllers
         // Private readonly fields for database context and user manager to interact with data and manage users
         private readonly ApplicationDBContext _context; // Access to database context for CRUD operations
         private readonly UserManager<IdentityUser> _userManager; // Manages user information
+        private readonly QueueService _queueService; //Queue Service to sednd message to queue
 
         // Constructor to inject dependencies of ApplicationDBContext and UserManager
-        public OrdersController(ApplicationDBContext context, UserManager<IdentityUser> userManager)
+        public OrdersController(ApplicationDBContext context, UserManager<IdentityUser> userManager, QueueService queueService)
         {
             _context = context; // Assigning the injected database context to the private field
             _userManager = userManager; // Assigning the injected user manager to the private field
+            _queueService = queueService;
+
         }
 
         // Method to display all orders for the admin
@@ -65,6 +69,12 @@ namespace ABCRetailers_Cameron_Chetty_CLDV6212_POE_P3.Controllers
 
             // Save changes to the database asynchronously
             await _context.SaveChangesAsync();
+
+            // Send a message to the queue
+            string message = $"Processing Order: Order ID: {order.OrderId} | Created Date: {order.OrderDate} | Total Price: R {order.TotalPrice} | Customer ID: {order.UserId} | Order Satus: {order.Status}";
+            await _queueService.SendMessageAsync("processorders", message);
+
+
 
             // Redirect to the Admin view after processing the order
             return RedirectToAction(nameof(Admin));

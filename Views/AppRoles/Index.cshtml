@@ -1,27 +1,103 @@
-﻿@using Microsoft.AspNetCore.Identity;
+﻿@using Microsoft.AspNetCore.Identity
 @model IEnumerable<IdentityRole>
+
 @{
     ViewData["Title"] = "Application Roles";
 }
-<h1>View Roles</h1>
-<p>
-    <a asp-action="Create">Create Role</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>@Html.DisplayNameFor(model => model.Id)</th>
-            <th>@Html.DisplayNameFor(model => model.Name)</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.Id)</td>
-                <td>@Html.DisplayFor(modelItem => item.Name)</td>
-            </tr>
+
+    <style>
+        /* General page styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #051c42; /* Dark blue background */
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
         }
-    </tbody>
-</table>
+
+        h1 {
+            text-align: center;
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+
+        /* Create Role link button */
+        .create-role {
+            display: inline-block;
+        margin: 20px 245px;
+        padding: 10px 20px;
+        background-color: #8c0307;
+            color: #ffffff;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+            .create-role:hover {
+            background-color: #051c42;
+            color: #fff;
+            border: 2px solid #fff;
+            
+            }
+
+        /* Table styling */
+        .table {
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            color: #333333;
+            border-collapse: collapse;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 4.2);
+        }
+
+            .table th, .table td {
+                padding: 12px;
+                text-align: left;
+            }
+
+            .table thead th {
+                background-color: #051c42; /* Match primary color */
+                color: #ffffff;
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+
+            .table tbody tr:nth-child(even) {
+                background-color: #f4f4f4;
+            }
+
+            .table tbody tr:hover {
+                background-color: #e0e0e0;
+            }
+
+            .table tbody td {
+                border-bottom: 1px solid #ddd;
+            }
+    </style>
+
+    <h1>@ViewData["Title"]</h1>
+
+    <div class="container">
+        <a asp-action="Create" class="create-role">Create Role</a>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Id)</th>
+                    <th>@Html.DisplayNameFor(model => model.Name)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>

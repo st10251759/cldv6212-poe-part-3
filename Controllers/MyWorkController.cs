@@ -1,5 +1,6 @@
 ﻿using ABCRetailers_Cameron_Chetty_CLDV6212_POE_P3.Data;  // Imports the data namespace for accessing the ApplicationDBContext (EF Core DbContext for database interactions).
 using ABCRetailers_Cameron_Chetty_CLDV6212_POE_P3.Models;  // Imports the models defined in the application, including Order, OrderRequest, Product, etc.
+using ABCRetailers_Cameron_Chetty_CLDV6212_POE_P3.Services;
 using Microsoft.AspNetCore.Authorization;  // Imports authorization classes to control access based on user roles.
 using Microsoft.AspNetCore.Identity;  // Imports Identity classes to manage user authentication and authorization.
 using Microsoft.AspNetCore.Mvc;  // Imports MVC functionalities, such as controllers, views, and model binding.
@@ -14,12 +15,14 @@ namespace ABCRetailers_Cameron_Chetty_CLDV6212_POE_P3.Controllers
         // Private fields to hold references to ApplicationDBContext (for database access) and UserManager for user management.
         private readonly ApplicationDBContext _context;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly QueueService _queueService;
 
         // Constructor that receives dependencies through dependency injection.
-        public MyWorkController(ApplicationDBContext context, UserManager<IdentityUser> userManager)
+        public MyWorkController(ApplicationDBContext context, UserManager<IdentityUser> userManager, QueueService queueService)
         {
             _context = context;  // Initializes the _context field with the injected database context.
             _userManager = userManager;  // Initializes the _userManager field for user-related operations.
+            _queueService = queueService;
         }
 
         // Index action method:
@@ -152,6 +155,10 @@ namespace ABCRetailers_Cameron_Chetty_CLDV6212_POE_P3.Controllers
             openOrder.TotalPrice = totalPrice;
             openOrder.Status = "Pending";
             await _context.SaveChangesAsync();  // Saves changes to complete the checkout.
+
+            // Send a message to the queue
+            string message = $" Order: Order ID: {openOrder.OrderId} added succesfully on Order Date: {openOrder.OrderDate} by User: {openOrder.User} values at Total Price: R {openOrder.TotalPrice} with the Status: {openOrder.Status}";
+            await _queueService.SendMessageAsync("createdorders", message);
 
             return Json(new { success = true });  // Returns success response.
         }
