@@ -33,3 +33,7 @@ namespace ABCRetailers_Cameron_Chetty_CLDV6212_POE_P3.Controllers
         public IActionResult Error()
         {
             // Creates and returns the Error view, passing an instance of
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+    }
+}
