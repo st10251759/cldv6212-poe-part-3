@@ -35,6 +35,7 @@ namespace ABCRetailers_Cameron_Chetty_CLDV6212_POE_P3.Controllers
             // Retrieve a list of all orders with their associated users
             var orders = await _context.Orders
                 .Include(o => o.User) // Include User data for each order
+                .Where(o => o.Status != "Shopping" && o.TotalPrice.HasValue) // Exclude in-cart orders and null TotalPrice
                 .ToListAsync();
 
             // Project orders into a list of OrderAdminViewModel to pass to the view
