@@ -1,12 +1,14 @@
 ﻿using ABCRetailers_Cameron_Chetty_CLDV6212_POE_P3.Data; // Importing the application's data context
 using ABCRetailers_Cameron_Chetty_CLDV6212_POE_P3.Models; // Importing the model classes
 using ABCRetailers_Cameron_Chetty_CLDV6212_POE_P3.Services; // Importing custom services, including BlobService
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc; // Importing ASP.NET Core MVC features
 using Microsoft.AspNetCore.Mvc.Rendering; // Importing classes for working with dropdown lists in views
 using Microsoft.EntityFrameworkCore; // Importing EF Core for database access and LINQ operations
 
 namespace ABCRetailers_Cameron_Chetty_CLDV6212_POE_P3.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ProductsController : Controller
     {
         private readonly ApplicationDBContext _context; // Database context instance for accessing database tables

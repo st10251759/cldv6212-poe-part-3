@@ -91,7 +91,7 @@ namespace ABCRetailers_Cameron_Chetty_CLDV6212_POE_P3.Controllers
 
             // Retrieve orders for the specific user and project them into OrderHistoryViewModel
             var orders = await _context.Orders
-                .Where(o => o.UserId == userId) // Filter orders by the user ID
+                .Where(o => o.UserId == userId && o.Status != "Shopping" && o.TotalPrice.HasValue) // Filter orders by the user ID
                 .Select(o => new OrderHistoryViewModel
                 {
                     OrderId = o.OrderId, // Order ID
