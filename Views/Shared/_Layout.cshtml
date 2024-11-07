@@ -154,18 +154,17 @@
                     @* Role-based navigation links that will display different links based on type of user logged in *@
                     @if (User.IsInRole("Admin"))
                     {
-                        <a href="/Products" class="nav-item nav-link">Inventory List</a>
+                        <a href="/Products" class="nav-item nav-link">Products</a>
                         <a href="/Orders/Admin" class="nav-item nav-link">Process Orders</a>
-                        <a href="/OrderRequests/" class="nav-item nav-link">View Order Reqest</a>
+                        <a href="/OrderRequests/" class="nav-item nav-link">Order Requests</a>
                         <a href="/Identity/Account/Register" class="nav-item nav-link">Register Users</a>
-                        <a href="/MyWork/Index" class="nav-item nav-link">Purchase Products</a>
                         <a href="/Document/Index" class="nav-item nav-link">Manage Contracts</a>
                     }
                     else if (User.IsInRole("Client"))
                     {
                         <a href="/MyWork/Index" class="nav-item nav-link">Purchase Products</a>
                         <a href="/MyWork/Cart" class="nav-item nav-link">View Cart</a>
-                        <a href="/Orders/OrderHistory" class="nav-item nav-link">View My Orders</a>
+                        <a href="/Orders/OrderHistory" class="nav-item nav-link">My Orders</a>
                         <a href="/Document/Index" class="nav-item nav-link">View Contracts</a>
                     }
                 </div>
@@ -209,7 +208,7 @@
                     <div class="col-lg-4 col-md-4">
                         <h4 class="text-light mb-4">Quick Links</h4>
                         <a class="btn btn-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        <a class="btn btn-link" asp-area="" asp-controller="About" asp-action="AboutUs">About Us</a>
+                        <a class="btn btn-link" asp-area="" asp-controller="About" asp-action="Index">About Us</a>
                     </div>
                 </div>
             </div>

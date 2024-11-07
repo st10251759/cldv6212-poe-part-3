@@ -24,8 +24,13 @@ builder.Services.AddSingleton<QueueService>(sp =>
 
 
 //Adding DB Context builder services with options
+//Dev Local DB Connection
+//builder.Services.AddDbContext<ApplicationDBContext>(options =>
+//           options.UseSqlServer(builder.Configuration.GetConnectionString("ABCRetailersDEV")));
+
+//Live DB Connection
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
-           options.UseSqlServer(builder.Configuration.GetConnectionString("ABCRetailersDEV")));
+           options.UseSqlServer(builder.Configuration.GetConnectionString("ABCRetailersLIVE")));
 
 //Added service for Authorization for Role based Access
 builder.Services.AddDefaultIdentity<IdentityUser>().AddDefaultTokenProviders()
